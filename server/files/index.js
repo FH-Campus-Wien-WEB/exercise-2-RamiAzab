@@ -41,17 +41,22 @@ window.onload = function () {
         const directors = document.createElement("p");
         directors.textContent = "Directors: " + movie.Directors.join(", ");
 
+        const writers = document.createElement("p");
+        writers.textContent = "Writers: " + movie.Writers.join(", ");
+
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
         editBtn.onclick = () => {
           location.href = "edit.html?imdbID=" + movie.imdbID;
         };
 
+        // Anhängen der Elemente an textDiv
         textDiv.appendChild(plot);
         textDiv.appendChild(info);
         textDiv.appendChild(genres);
         textDiv.appendChild(actors);
         textDiv.appendChild(directors);
+        textDiv.appendChild(writers); // <- Hier eingefügt
         textDiv.appendChild(editBtn);
 
         contentDiv.appendChild(img);
