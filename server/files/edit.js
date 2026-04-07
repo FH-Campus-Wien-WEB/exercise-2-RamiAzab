@@ -97,3 +97,20 @@ xhr.onload = function () {
 
 xhr.send();
 
+function putMovie() {
+  const movie = getMovie();
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("PUT", "/movies/" + movie.imdbID);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onload = function () {
+    if (xhr.status == 200 || xhr.status == 201) {
+      location.href = "index.html";
+    } else {
+      alert("Saving failed " + xhr.status);
+    }
+  };
+
+  xhr.send(JSON.stringify(movie));
+}

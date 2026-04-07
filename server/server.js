@@ -5,32 +5,38 @@ const movieModel = require('./movie-model.js');
 
 const app = express();
 
-// Parse urlencoded bodies
-app.use(bodyParser.json()); 
-
-// Serve static content in directory 'files'
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'files')));
 
-// Configure a 'get' endpoint for all movies..
+// GET ALL
 app.get('/movies', function (req, res) {
-  /* Task 1.2. Remove the line below and eturn the movies from 
-     the model as an array */
-  res.sendStatus(404)
-})
+  res.json(Object.values(movieModel));
+});
 
-// Configure a 'get' endpoint for a specific movie
+// GET ONE
 app.get('/movies/:imdbID', function (req, res) {
-  /* Task 2.1. Remove the line below and add the 
-    functionality here */
-  res.sendStatus(404)
-})
+  const movie = movieModel[req.params.imdbID];
 
-/* Task 3.1 and 3.2.
-   - Add a new PUT endpoint
-   - Check whether the movie sent by the client already exists 
-     and continue as described in the assignment */
+  if (movie) {
+    res.json(movie);
+  } else {
+    res.sendStatus(404);
+  }
+});
 
-app.listen(3000)
+// PUT (UPDATE / CREATE)
+app.put('/movies/:imdbID', function (req, res) {
+  const imdbID = req.params.imdbID;
+  const movie = req.body;
 
-console.log("Server now listening on http://localhost:3000/")
+  if (movieModel[imdbID]) {
+    movieModel[imdbID] = movie;
+    res.sendStatus(200);
+  } else {
+    movieModel[imdbID] = movie;
+    res.status(201).json(movie);
+  }
+});
 
+app.listen(3000);
+console.log("Server now listening on http://localhost:3000/");
